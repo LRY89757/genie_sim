@@ -87,7 +87,11 @@ class Recording:
         with open(task_file, "r") as f:
             self.task = json.load(f)
 
-        scene_usd = self.state["scene"]["scene_usd"]
+        # Try to get scene_usd from state file first, then fall back to task file
+        if "scene_usd" in self.state.get("scene", {}):
+            scene_usd = self.state["scene"]["scene_usd"]
+        else:
+            scene_usd = self.task["scene"]["scene_usd"]
         robot_init_pose = self.task["robot"]["robot_init_pose"]
         target_position = [0, 0, 0]
         target_rotation = [1, 0, 0, 0]
@@ -162,10 +166,15 @@ class Recording:
             if obj_id in self.init_frame["objects"].keys():
                 self.object_list[obj_id] = self.init_frame["objects"][obj_id]["pose"]
 
-        for obj in self.state["articulated_objects"]:
-            self.articulated_object_list.append(obj["name"])
+        # Handle articulated objects if they exist
+        if "articulated_objects" in self.state:
+            for obj in self.state["articulated_objects"]:
+                self.articulated_object_list.append(obj["name"])
 
     def add_task_objects(self):
+        # Track objects to remove
+        objects_to_remove = []
+        
         for obj_id, obj_pose in self.object_list.items():
             if obj_id in self.task_objects:
                 usd_path = self.task_objects[obj_id]["model_path"]
@@ -197,7 +206,12 @@ class Recording:
                     mass=0.01,
                 )
             else:
-                logger.warning("Object {} not found in task_objects".format(obj_id))
+                logger.warning("Object {} not found in task_objects, will skip in replay".format(obj_id))
+                objects_to_remove.append(obj_id)
+        
+        # Remove objects that don't exist in task_objects
+        for obj_id in objects_to_remove:
+            self.object_list.pop(obj_id, None)
 
     def add_articulated_objects(self):
         for key in self.articulated_object_list:
@@ -308,6 +322,10 @@ class Recording:
             object_info = state[idx]["objects"]
             object_poses = []
             for key, value in object_info.items():
+                # Skip objects that weren't successfully added
+                if key not in self.object_list:
+                    continue
+                    
                 object_pose = {}
                 target_matrix = self.init_translation_matrix @ (
                     np.linalg.inv(self.robot_pose) @ value["pose"]

@@ -666,7 +666,7 @@ class Ros_Extrater:
                                 "-i",
                                 f"{self.output_dir}/camera/%d/{image_file}.jpg",
                                 "-c:v",
-                                "libx265",
+                                "libx264",
                                 "-b:v",
                                 "3000k",
                                 "-preset",
@@ -678,7 +678,7 @@ class Ros_Extrater:
                         )
                     logger.info(f"Video file saved to {self.output_dir}")
                     subprocess.run(["rm", "-Rf", f"{self.output_dir}/{file_name}.db3"])
-                    logger.info(f"Successfully transfer h265")
+                    logger.info(f"Successfully transfer h264")
                 except subprocess.CalledProcessError as e:
                     logger.error(f"Error removing file: {e}")
                     sys.exit(1)

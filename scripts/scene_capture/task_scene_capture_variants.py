@@ -54,8 +54,134 @@ def get_camera_name(prim_path):
         return "hand_right"
     elif "Left_Camera" in prim_path:
         return "hand_left"
+    elif "FrontFisheye" in prim_path:
+        return "front_fisheye"
+    elif "Overview" in prim_path:
+        return "overview"
+    elif "TopDown" in prim_path:
+        return "top_down"
+    elif "SideView" in prim_path:
+        return "side_view"
     else:
         return prim_path.split("/")[-1].lower()
+
+def calculate_scene_bounds(rpc_client, objects_added):
+    """Calculate bounding box of all objects in the scene"""
+    if not objects_added:
+        # Default bounds if no objects
+        return np.array([-2, -2, 0]), np.array([2, 2, 2])
+    
+    min_bounds = np.array([float('inf')] * 3)
+    max_bounds = np.array([float('-inf')] * 3)
+    
+    for obj_id in objects_added:
+        try:
+            prim_path = f"/World/Objects/{obj_id}"
+            response = rpc_client.GetObjectAABB(prim_path)
+            
+            obj_min = np.array([response.bbox[0], response.bbox[1], response.bbox[2]])
+            obj_max = np.array([response.bbox[3], response.bbox[4], response.bbox[5]])
+            
+            min_bounds = np.minimum(min_bounds, obj_min)
+            max_bounds = np.maximum(max_bounds, obj_max)
+            
+        except Exception as e:
+            print(f"Warning: Could not get bounds for object {obj_id}: {e}")
+            continue
+    
+    # If no valid bounds found, use defaults
+    if np.any(np.isinf(min_bounds)) or np.any(np.isinf(max_bounds)):
+        return np.array([-2, -2, 0]), np.array([2, 2, 2])
+    
+    return min_bounds, max_bounds
+
+def create_strategic_cameras(rpc_client, objects_added):
+    """Create strategic camera viewpoints around the scene"""
+    
+    # Calculate scene bounds
+    min_bounds, max_bounds = calculate_scene_bounds(rpc_client, objects_added)
+    scene_center = (min_bounds + max_bounds) / 2
+    scene_size = max_bounds - min_bounds
+    max_dimension = np.max(scene_size)
+    
+    print(f"Scene center: {scene_center}")
+    print(f"Scene size: {scene_size}")
+    print(f"Max dimension: {max_dimension}")
+    
+    strategic_cameras = []
+    
+    # Front Fisheye Camera - positioned in front of scene with wide FOV
+    front_distance = max(3.0, max_dimension * 1.5)
+    front_position = scene_center + np.array([front_distance, 0, scene_size[2] * 0.3])
+    front_target = scene_center
+    
+    try:
+        # Create fisheye camera with wide field of view
+        rsp = rpc_client.CreateCamera(
+            prim_path="/World/Cameras/FrontFisheye",
+            position=front_position.tolist(),
+            target=front_target.tolist(),
+            fov=120.0,  # Wide fisheye field of view
+            resolution=[512, 512]
+        )
+        strategic_cameras.append("/World/Cameras/FrontFisheye")
+        print(f"Created front fisheye camera at position: {front_position}")
+    except Exception as e:
+        print(f"Warning: Could not create front fisheye camera: {e}")
+    
+    # Overview Camera - isometric view
+    overview_distance = max(4.0, max_dimension * 2.0)
+    overview_position = scene_center + np.array([overview_distance * 0.7, overview_distance * 0.7, overview_distance * 0.5])
+    
+    try:
+        rsp = rpc_client.CreateCamera(
+            prim_path="/World/Cameras/Overview",
+            position=overview_position.tolist(),
+            target=scene_center.tolist(),
+            fov=60.0,
+            resolution=[512, 512]
+        )
+        strategic_cameras.append("/World/Cameras/Overview")
+        print(f"Created overview camera at position: {overview_position}")
+    except Exception as e:
+        print(f"Warning: Could not create overview camera: {e}")
+    
+    # Top-Down Camera
+    topdown_height = max(3.0, scene_size[2] + max_dimension * 1.0)
+    topdown_position = scene_center + np.array([0, 0, topdown_height])
+    
+    try:
+        rsp = rpc_client.CreateCamera(
+            prim_path="/World/Cameras/TopDown",
+            position=topdown_position.tolist(),
+            target=scene_center.tolist(),
+            fov=90.0,
+            resolution=[512, 512]
+        )
+        strategic_cameras.append("/World/Cameras/TopDown")
+        print(f"Created top-down camera at position: {topdown_position}")
+    except Exception as e:
+        print(f"Warning: Could not create top-down camera: {e}")
+    
+    # Side View Camera
+    side_distance = max(3.0, max_dimension * 1.5)
+    side_position = scene_center + np.array([0, side_distance, scene_size[2] * 0.5])
+    
+    try:
+        rsp = rpc_client.CreateCamera(
+            prim_path="/World/Cameras/SideView", 
+            position=side_position.tolist(),
+            target=scene_center.tolist(),
+            fov=60.0,
+            resolution=[512, 512]
+        )
+        strategic_cameras.append("/World/Cameras/SideView")
+        print(f"Created side view camera at position: {side_position}")
+    except Exception as e:
+        print(f"Warning: Could not create side view camera: {e}")
+    
+    print(f"Created {len(strategic_cameras)} strategic cameras")
+    return strategic_cameras
 
 def generate_task_variants(task_config, num_variants, temp_dir):
     """Generate multiple task variants using TaskGenerator"""
@@ -151,17 +277,23 @@ def capture_variant_images(rpc_client, variant_config, variant_idx, output_dir):
     # Setup scene with variant objects
     objects_added = setup_scene_for_variant(rpc_client, variant_config)
     
+    # Create strategic cameras based on object positions
+    strategic_cameras = create_strategic_cameras(rpc_client, objects_added)
+    
     # Create variant output directory
     variant_dir = os.path.join(output_dir, f"variant_{variant_idx}")
     os.makedirs(variant_dir, exist_ok=True)
     
-    # Get camera list
-    camera_list = extract_camera_list(variant_config)
-    print(f"Capturing from cameras: {camera_list}")
+    # Get robot camera list
+    robot_camera_list = extract_camera_list(variant_config)
+    
+    # Combine robot cameras with strategic cameras
+    all_cameras = robot_camera_list + strategic_cameras
+    print(f"Capturing from cameras: {all_cameras}")
     
     # Capture images from each camera
     captured_images = {}
-    for camera_prim in camera_list:
+    for camera_prim in all_cameras:
         try:
             print(f"Capturing image from: {camera_prim}")
             
@@ -360,7 +492,8 @@ def capture_task_variants(task_json_path, num_variants=5, output_dir="task_varia
         for i in range(len(variant_files)):
             variant_dir = os.path.join(output_path, f"variant_{i}")
             print(f"  {variant_dir}/")
-            for camera_name in ["head", "hand_left", "hand_right"]:
+            # Check for all possible camera types
+            for camera_name in ["head", "hand_left", "hand_right", "front_fisheye", "overview", "top_down", "side_view"]:
                 rgb_file = os.path.join(variant_dir, f"{camera_name}.jpg")
                 if os.path.exists(rgb_file):
                     print(f"    - {camera_name}.jpg")

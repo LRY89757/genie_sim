@@ -5,6 +5,7 @@ if [ $# -lt 2 ]; then
     echo "Usage: bash scripts/scene_capture/capture_task_variants.sh <gpu_num> <task_json_path> [num_variants] [output_dir]"
     echo "Example: bash scripts/scene_capture/capture_task_variants.sh 0 benchmark/ader/eval_tasks/iros_stamp_the_seal.json 5"
     echo "Example: bash scripts/scene_capture/capture_task_variants.sh 0 benchmark/ader/eval_tasks/iros_stamp_the_seal.json 10 my_variants"
+    echo "Example: bash scripts/scene_capture/capture_task_variants.sh 1 benchmark/ader/eval_tasks/curobo_restock_supermarket_items.json 10 my_variants"
     exit 1
 fi
 

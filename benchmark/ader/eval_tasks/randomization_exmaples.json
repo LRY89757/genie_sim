@@ -1,0 +1,639 @@
+{
+    "objects": {
+        "constraints": null,
+        "extra_objects": [
+            {
+                "object_id": "extra_cup_001",
+                "workspace_id": "workspace_00",
+                "data_info_dir": "objects/kitchen/cup/cup_001/",
+                "extent": 20,
+                "mass": 0.1,
+                "materialOptions": [
+                    "raw",
+                    "diffuse"
+                ],
+                "model_path": "objects/kitchen/cup/cup_001/Aligned.usd",
+                "obj_path": "objects/kitchen/cup/cup_001/Aligned.obj",
+                "size": [
+                    0.08,
+                    0.08,
+                    0.12
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.6,
+                "dynamic_friction": 0.4
+            },
+            {
+                "object_id": "extra_plate_001",
+                "workspace_id": "workspace_00",
+                "data_info_dir": "objects/kitchen/plate/plate_001/",
+                "extent": 15,
+                "mass": 0.2,
+                "materialOptions": [
+                    "raw",
+                    "diffuse"
+                ],
+                "model_path": "objects/kitchen/plate/plate_001/Aligned.usd",
+                "obj_path": "objects/kitchen/plate/plate_001/Aligned.obj",
+                "size": [
+                    0.25,
+                    0.25,
+                    0.03
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.8,
+                "dynamic_friction": 0.3
+            },
+            {
+                "object_id": "extra_spoon_001",
+                "workspace_id": "workspace_01",
+                "data_info_dir": "objects/kitchen/spoon/spoon_001/",
+                "extent": 8,
+                "mass": 0.05,
+                "materialOptions": [
+                    "raw",
+                    "diffuse"
+                ],
+                "model_path": "objects/kitchen/spoon/spoon_001/Aligned.usd",
+                "obj_path": "objects/kitchen/spoon/spoon_001/Aligned.obj",
+                "size": [
+                    0.03,
+                    0.15,
+                    0.01
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.5,
+                "dynamic_friction": 0.3
+            }
+        ],
+        "fix_objects": [
+            {
+                "object_id": "kitchen_table",
+                "data_info_dir": "objects/furniture/table/kitchen_table_001/",
+                "mass": 20.0,
+                "materialOptions": [
+                    "raw"
+                ],
+                "model_path": "objects/furniture/table/kitchen_table_001/Aligned.usd",
+                "obj_path": "objects/furniture/table/kitchen_table_001/Aligned.obj",
+                "position": [
+                    -4.0,
+                    11.0,
+                    0.4
+                ],
+                "quaternion": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.2,
+                    0.8,
+                    0.05
+                ],
+                "static_friction": 0.8,
+                "dynamic_friction": 0.2,
+                "upAxis": [
+                    "y"
+                ]
+            },
+            {
+                "object_id": "workspace_boundary",
+                "data_info_dir": "objects/furniture/boundary/boundary_001/",
+                "mass": 5.0,
+                "materialOptions": [
+                    "raw"
+                ],
+                "model_path": "objects/furniture/boundary/boundary_001/Aligned.usd",
+                "obj_path": "objects/furniture/boundary/boundary_001/Aligned.obj",
+                "position": [
+                    -3.5,
+                    10.5,
+                    0.4
+                ],
+                "quaternion": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.4,
+                    0.4,
+                    0.05
+                ],
+                "static_friction": 0.8,
+                "dynamic_friction": 0.2,
+                "upAxis": [
+                    "y"
+                ]
+            }
+        ],
+        "task_related_objects": [
+            {
+                "object_id": "target_bottle_001",
+                "workspace_id": "workspace_00",
+                "data_info_dir": "objects/kitchen/bottle/bottle_001/",
+                "extent": 25,
+                "mass": 0.3,
+                "materialOptions": [
+                    "raw",
+                    "diffuse",
+                    "transparent"
+                ],
+                "model_path": "objects/kitchen/bottle/bottle_001/Aligned.usd",
+                "obj_path": "objects/kitchen/bottle/bottle_001/Aligned.obj",
+                "size": [
+                    0.06,
+                    0.06,
+                    0.20
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.7,
+                "dynamic_friction": 0.3,
+                "interaction": {
+                    "passive": {
+                        "grasp": {
+                            "default": [
+                                "grasp_pose/grasp_pose.pkl"
+                            ]
+                        },
+                        "place": {
+                            "default": [
+                                {
+                                    "direction": [
+                                        0.0,
+                                        -1.0,
+                                        0.0
+                                    ],
+                                    "xyz": [
+                                        0.0,
+                                        0.1,
+                                        0.0
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "object_id": "target_apple_001",
+                "workspace_id": "workspace_00",
+                "data_info_dir": "objects/fruit/apple/apple_001/",
+                "extent": 15,
+                "mass": 0.15,
+                "materialOptions": [
+                    "raw",
+                    "diffuse"
+                ],
+                "model_path": "objects/fruit/apple/apple_001/Aligned.usd",
+                "obj_path": "objects/fruit/apple/apple_001/Aligned.obj",
+                "size": [
+                    0.08,
+                    0.08,
+                    0.08
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.9,
+                "dynamic_friction": 0.4,
+                "interaction": {
+                    "passive": {
+                        "grasp": {
+                            "default": [
+                                "grasp_pose/grasp_pose.pkl"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "object_id": "target_book_001",
+                "workspace_id": "workspace_00",
+                "data_info_dir": "objects/office/book/book_001/",
+                "extent": 10,
+                "mass": 0.4,
+                "materialOptions": [
+                    "raw",
+                    "diffuse"
+                ],
+                "model_path": "objects/office/book/book_001/Aligned.usd",
+                "obj_path": "objects/office/book/book_001/Aligned.obj",
+                "size": [
+                    0.20,
+                    0.15,
+                    0.03
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.8,
+                "dynamic_friction": 0.5,
+                "interaction": {
+                    "passive": {
+                        "grasp": {
+                            "default": [
+                                "grasp_pose/grasp_pose.pkl"
+                            ]
+                        },
+                        "place": {
+                            "default": [
+                                {
+                                    "direction": [
+                                        0.0,
+                                        -1.0,
+                                        0.0
+                                    ],
+                                    "xyz": [
+                                        0.0,
+                                        0.02,
+                                        0.0
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "object_id": "target_pen_001",
+                "workspace_id": "workspace_01",
+                "data_info_dir": "objects/office/pen/pen_001/",
+                "extent": 8,
+                "mass": 0.02,
+                "materialOptions": [
+                    "raw",
+                    "diffuse"
+                ],
+                "model_path": "objects/office/pen/pen_001/Aligned.usd",
+                "obj_path": "objects/office/pen/pen_001/Aligned.obj",
+                "size": [
+                    0.015,
+                    0.015,
+                    0.14
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.6,
+                "dynamic_friction": 0.3,
+                "interaction": {
+                    "passive": {
+                        "grasp": {
+                            "default": [
+                                "grasp_pose/grasp_pose.pkl"
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "object_id": "target_mug_001",
+                "workspace_id": "workspace_00",
+                "data_info_dir": "objects/kitchen/mug/mug_001/",
+                "extent": 18,
+                "mass": 0.25,
+                "materialOptions": [
+                    "raw",
+                    "diffuse"
+                ],
+                "model_path": "objects/kitchen/mug/mug_001/Aligned.usd",
+                "obj_path": "objects/kitchen/mug/mug_001/Aligned.obj",
+                "size": [
+                    0.10,
+                    0.10,
+                    0.12
+                ],
+                "upAxis": [
+                    "y"
+                ],
+                "static_friction": 0.7,
+                "dynamic_friction": 0.4,
+                "interaction": {
+                    "passive": {
+                        "grasp": {
+                            "default": [
+                                "grasp_pose/grasp_pose.pkl"
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    "recording_setting": {
+        "camera_list": [
+            "/G1/head_link2/Head_Camera",
+            "/G1/gripper_l_base_link/Left_Camera",
+            "/G1/gripper_r_base_link/Right_Camera"
+        ],
+        "fps": 30,
+        "num_of_episode": 10
+    },
+    "robot": {
+        "arm": "right",
+        "init_arm_pose": [
+            0.35,
+            0.449,
+            0.0,
+            0.3839745594177246,
+            -0.6694692969322205,
+            0.6698880195617676,
+            0.20095419883728027,
+            -0.2008844017982483,
+            0.2794268727302551,
+            -0.2795141041278839,
+            -1.2836394309997559,
+            1.2839361429214478,
+            0.841247022151947,
+            -0.8418054580688477,
+            1.515933871269226,
+            -1.5172425508499146,
+            -0.1875177025794983,
+            0.18760496377944946,
+            null,
+            0.8,
+            null,
+            0.8,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+        "robot_cfg": "G1_omnipicker.json",
+        "robot_id": "G1",
+        "robot_init_pose": {
+            "workspace_00": {
+                "position": [
+                    -5.02,
+                    11.28,
+                    0.0
+                ],
+                "quaternion": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
+    "scene": {
+        "function_space_objects": {
+            "workspace_00": {
+                "position": [
+                    -4.0,
+                    11.0,
+                    0.85
+                ],
+                "quaternion": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    0.6,
+                    0.1
+                ],
+                "material_obj_prim": {
+                    "surface_type": "wood",
+                    "roughness": 0.7,
+                    "metallic": 0.0
+                }
+            },
+            "workspace_01": {
+                "position": [
+                    -3.5,
+                    10.5,
+                    0.85
+                ],
+                "quaternion": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.3,
+                    0.3,
+                    0.1
+                ],
+                "material_obj_prim": {
+                    "surface_type": "plastic",
+                    "roughness": 0.5,
+                    "metallic": 0.0
+                }
+            },
+            "workspace_00_ground": {
+                "position": [
+                    -4.0,
+                    11.0,
+                    0.0
+                ],
+                "quaternion": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    0.1
+                ],
+                "material_obj_prim": {
+                    "surface_type": "concrete",
+                    "roughness": 0.8,
+                    "metallic": 0.0
+                }
+            },
+            "workspace_extra": {
+                "position": [
+                    -4.5,
+                    11.5,
+                    0.85
+                ],
+                "quaternion": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.4,
+                    0.4,
+                    0.1
+                ],
+                "material_obj_prim": {
+                    "surface_type": "metal",
+                    "roughness": 0.3,
+                    "metallic": 0.8
+                }
+            }
+        },
+        "scene_id": "kitchen_flexible/workspace_00",
+        "scene_info_dir": "scenes/kitchen_flexible",
+        "scene_usd": "scenes/kitchen_flexible/flexible_kitchen_randomization.usda"
+    },
+    "stages": [
+        {
+            "action": "pick",
+            "active": {
+                "object_id": "gripper",
+                "primitive": null
+            },
+            "passive": {
+                "object_id": "target_bottle_001",
+                "primitive": null
+            },
+            "extra_params": {
+                "approach_distance": 0.15,
+                "approach_speed": 0.02,
+                "grasp_force": 0.5
+            }
+        },
+        {
+            "action": "place",
+            "active": {
+                "object_id": "gripper",
+                "primitive": null
+            },
+            "passive": {
+                "object_id": "target_position_001",
+                "primitive": null
+            },
+            "extra_params": {
+                "place_height": 0.05,
+                "place_speed": 0.01,
+                "release_force": 0.1
+            }
+        },
+        {
+            "action": "pick",
+            "active": {
+                "object_id": "gripper",
+                "primitive": null
+            },
+            "passive": {
+                "object_id": "target_apple_001",
+                "primitive": null
+            },
+            "extra_params": {
+                "approach_distance": 0.12,
+                "approach_speed": 0.015,
+                "grasp_force": 0.3
+            }
+        },
+        {
+            "action": "place",
+            "active": {
+                "object_id": "gripper",
+                "primitive": null
+            },
+            "passive": {
+                "object_id": "target_position_002",
+                "primitive": null
+            },
+            "extra_params": {
+                "place_height": 0.03,
+                "place_speed": 0.008,
+                "release_force": 0.05
+            }
+        }
+    ],
+    "task": "flexible_randomization_kitchen_demo",
+    "object_with_material": {
+        "target_bottle_001": {
+            "material_type": "glass",
+            "transparency": 0.7,
+            "ior": 1.5
+        },
+        "target_apple_001": {
+            "material_type": "organic",
+            "roughness": 0.8,
+            "subsurface": 0.3
+        },
+        "target_book_001": {
+            "material_type": "paper",
+            "roughness": 0.9,
+            "metallic": 0.0
+        }
+    },
+    "lights": {
+        "main_light": {
+            "type": "directional",
+            "position": [
+                -4.0,
+                11.0,
+                2.0
+            ],
+            "direction": [
+                0.0,
+                0.0,
+                -1.0
+            ],
+            "intensity": 5.0,
+            "color": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "ambient_light": {
+            "type": "ambient",
+            "intensity": 0.3,
+            "color": [
+                0.8,
+                0.9,
+                1.0
+            ]
+        },
+        "fill_light": {
+            "type": "point",
+            "position": [
+                -3.0,
+                10.0,
+                1.5
+            ],
+            "intensity": 2.0,
+            "color": [
+                1.0,
+                0.9,
+                0.8
+            ]
+        }
+    },
+    "constraints": {
+        "spatial": {
+            "min_object_distance": 0.05,
+            "max_object_distance": 0.5,
+            "preferred_placement": "edge"
+        },
+        "physics": {
+            "stability_check": true,
+            "collision_margin": 0.02,
+            "gravity_alignment": true
+        }
+    }
+}
